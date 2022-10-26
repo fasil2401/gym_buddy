@@ -20,22 +20,15 @@ class ApiManager {
   }
 
   static Future fetchDataGet({String? api}) async {
+    print('${Api.apiUrl}$api');
     var responses = await client.get(
       Uri.parse(
         '${Api.apiUrl}$api',
       ),
-      // headers: {
-      //   "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-      //   "Access-Control-Allow-Credentials":
-      //       'true', // Required for cookies, authorization headers with HTTPS
-      //   "Access-Control-Allow-Headers":
-      //       "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-      //   "Access-Control-Allow-Methods": "POST, OPTIONS"
-      // },
     );
     if (responses.statusCode == 200) {
       var jsonResponse = jsonDecode(responses.body);
-      print(jsonResponse);
+      // print(jsonResponse);
       return jsonResponse;
     } else {
       throw Exception('Failed to load data');
@@ -52,6 +45,38 @@ class ApiManager {
       return jsonResponse;
     } else {
       throw Exception('Failed to load data');
+    }
+  }
+
+  static Future fetchDataRawBody(
+      {required String api, required String data}) async {
+    final response = await client.post(
+      Uri.parse('${Api.apiUrl}$api'),
+      headers: {"Content-Type": "application/json"},
+      body: data,
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(response.body);
+      var jsonResponse = jsonDecode(response.body);
+      return jsonResponse;
+    } else {
+      return jsonDecode(response.body);
+    }
+  }
+
+  static Future patchDataRawBody(
+      {required String api, required String data}) async {
+    final response = await client.patch(
+      Uri.parse('${Api.apiUrl}$api'),
+      headers: {"Content-Type": "application/json"},
+      body: data,
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(response.body);
+      var jsonResponse = jsonDecode(response.body);
+      return jsonResponse;
+    } else {
+      return jsonDecode(response.body);
     }
   }
 }

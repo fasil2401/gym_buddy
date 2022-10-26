@@ -14,15 +14,15 @@ class MemberScreen {
   final memberScreenController = Get.put(MemberScreenController());
 
   final List<String> genderItems = [
-    'Male',
-    'Female',
+    'male',
+    'female',
   ];
   final List<String> statusItems = [
     'Active',
     'Inactive',
   ];
 
-  String? selectedValue;
+  var selectedValue;
   Widget body(Size size, BuildContext context) {
     return Container(
       height: double.infinity,
@@ -55,7 +55,7 @@ class MemberScreen {
                         icon: Icons.calendar_month_rounded,
                         title: 'Date',
                         onTap: () {
-                          homeController.pickDateRange(context);
+                          memberScreenController.pickDateRange(context);
                         }),
                   ),
                 ),
@@ -120,7 +120,8 @@ class MemberScreen {
                                 ))
                             .toList(),
                         onChanged: (value) {
-                          //Do something when changing the item if you want.
+                          memberScreenController
+                              .setFilterGender(value.toString());
                         },
                         onSaved: (value) {
                           selectedValue = value.toString();
@@ -190,7 +191,8 @@ class MemberScreen {
                                 ))
                             .toList(),
                         onChanged: (value) {
-                          //Do something when changing the item if you want.
+                          memberScreenController
+                              .setFilterStatus(value.toString());
                         },
                         onSaved: (value) {
                           selectedValue = value.toString();
@@ -209,6 +211,11 @@ class MemberScreen {
                     fontSize: 12,
                   ),
                   onTap: () => homeController.toggleSearch(),
+                  // onChanged: (value) {
+                  //   memberScreenController.getQuery(value);
+                  // },
+                  onSubmitted: (value) =>
+                      memberScreenController.getQuery(value),
                   decoration: InputDecoration(
                     isCollapsed: true,
                     hintText: 'Search',
@@ -254,130 +261,151 @@ class MemberScreen {
               height: 20,
             ),
             Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: 20,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          index.isEven
-                              ? 'assets/images/female_head.png'
-                              : 'assets/images/male_head.png',
-                          height: 30,
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: _buildListTileText(
-                              head: 'Salman Salim',
-                              body: 'Njaveliparambil House, Kottayam , Kerala'),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: _buildListTileText(
-                              head: '8590385573', body: 'Monthly Premium plus'),
-                        ),
-                        _buildIconTile(
-                            icon: Icons.person, title: 'Details', onTap: () {}),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        _buildIconTile(
-                            icon: Icons.payment_rounded,
-                            title: 'Transactions',
-                            onTap: () {}),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: 90,
-                          child: DropdownButtonFormField2(
-                            decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 5),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: AppColors.grey,
-                                    width: 0.3,
-                                  ),
-                                ),
-                                fillColor: index.isEven
-                                    ? Colors.red.shade700.withOpacity(0.2)
-                                    : Colors.green.shade700.withOpacity(0.2),
-                                filled: true,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                    color: AppColors.grey,
-                                    width: 0.3,
-                                  ),
-                                )),
-                            isExpanded: true,
-                            hint: const Text(
-                              'Status',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.grey,
-                              ),
-                            ),
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                              color: AppColors.grey,
-                            ),
-                            iconSize: 20,
-                            // buttonHeight: 60,
-                            buttonWidth: 90,
-                            buttonPadding: EdgeInsets.symmetric(horizontal: 5),
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border:
-                                  Border.all(color: AppColors.grey, width: 0.3),
-                            ),
-                            items: statusItems
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: AppColors.grey,
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                            onChanged: (value) {
-                              //Do something when changing the item if you want.
-                            },
-                            onSaved: (value) {
-                              selectedValue = value.toString();
-                            },
+              child: Obx(() => memberScreenController.members.isEmpty
+                  ? Center(
+                      child:memberScreenController.isLoading.value? CircularProgressIndicator(
+                        color: AppColors.white,
+                      ) : Text('No data found',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: AppColors.grey,
+                            fontSize: 20,
+                          )))
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: memberScreenController.members.length,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var member = memberScreenController.members[index];
+                        return Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 5,
-                ),
-              ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                member.gender == 'female'
+                                    ? 'assets/images/female_head.png'
+                                    : 'assets/images/male_head.png',
+                                height: 30,
+                                width: 30,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: _buildListTileText(
+                                    head: member.name,
+                                    body:
+                                        '${member.area}, ${member.district}, ${member.state}'),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: _buildListTileText(
+                                    head: member.mobile,
+                                    body: member.packageName),
+                              ),
+                              _buildIconTile(
+                                  icon: Icons.person,
+                                  title: 'Details',
+                                  onTap: () {}),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              _buildIconTile(
+                                  icon: Icons.payment_rounded,
+                                  title: 'Transactions',
+                                  onTap: () {}),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                  width: 90,
+                                  child: DropdownButtonFormField2(
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: AppColors.grey,
+                                            width: 0.3,
+                                          ),
+                                        ),
+                                        fillColor: !member.status
+                                            ? Colors.red.shade700
+                                                .withOpacity(0.2)
+                                            : Colors.green.shade700
+                                                .withOpacity(0.2),
+                                        filled: true,
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          borderSide: BorderSide(
+                                            color: AppColors.grey,
+                                            width: 0.3,
+                                          ),
+                                        )),
+                                    isExpanded: true,
+                                    hint: Text(
+                                      member.status ? 'Active' : 'Inactive',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.grey,
+                                      ),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down,
+                                      color: AppColors.grey,
+                                    ),
+                                    iconSize: 20,
+                                    // buttonHeight: 60,
+                                    buttonWidth: 90,
+                                    buttonPadding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    dropdownDecoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: AppColors.grey, width: 0.3),
+                                    ),
+                                    items: statusItems
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: AppColors.grey,
+                                                ),
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      memberScreenController.changeStatus(
+                                          value.toString(), member, context);
+                                    },
+                                    onSaved: (value) {
+                                      selectedValue = value.toString();
+                                    },
+                                  )),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: 5,
+                      ),
+                    )),
             ),
             SizedBox(
               height: 20,
@@ -390,12 +418,18 @@ class MemberScreen {
                   _buildIconTile(
                       icon: Icons.skip_previous,
                       title: 'Previous',
-                      onTap: () {}),
+                      onTap: () {
+                        memberScreenController.previousPage();
+                      }),
                   SizedBox(
                     width: 10,
                   ),
                   _buildIconTileRight(
-                      icon: Icons.skip_next, title: 'Next', onTap: () {}),
+                      icon: Icons.skip_next,
+                      title: 'Next',
+                      onTap: () {
+                        memberScreenController.nextPage();
+                      }),
                   SizedBox(
                     width: 10,
                   ),
@@ -450,6 +484,24 @@ class MemberScreen {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
+                                          Obx(() => Visibility(
+                                                visible: memberScreenController
+                                                    .fieldError.value,
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                      '**Please fill all the fields',
+                                                      style: TextStyle(
+                                                          color: AppColors.red,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                              )),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
                                           Row(
                                             children: [
                                               _buildTextField(
@@ -475,6 +527,24 @@ class MemberScreen {
                                               ),
                                             ],
                                           ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Obx(() => Visibility(
+                                                visible: memberScreenController
+                                                    .mobileError.value,
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                      'Mobile number Already Exist',
+                                                      style: TextStyle(
+                                                          color: AppColors.red,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                              )),
                                           SizedBox(
                                             height: 15,
                                           ),
@@ -738,9 +808,8 @@ class MemberScreen {
                                                           () => _buildTextField(
                                                             controller:
                                                                 TextEditingController(
-                                                                    text: memberScreenController
-                                                                        .score
-                                                                        .value),
+                                                                    text:
+                                                                        'BMI : ${memberScreenController.score.value}'),
                                                             hint: 'Scroe',
                                                             isReadOnly: true,
                                                             onChanged:
@@ -761,22 +830,20 @@ class MemberScreen {
                                           ),
                                           Row(
                                             children: [
-                                              _buildTextFieldDate(
-                                                  hint: 'Joining Date',
-                                                  context: context),
+                                              Obx(
+                                                () => _buildTextFieldDate(
+                                                    controller:
+                                                        TextEditingController(
+                                                            text:
+                                                                memberScreenController
+                                                                    .joiningDate
+                                                                    .value),
+                                                    hint: 'Joining Date',
+                                                    context: context),
+                                              ),
                                               SizedBox(
                                                 width: 10,
                                               ),
-                                              _buildTextFieldDate(
-                                                  hint: 'Reminder Date',
-                                                  context: context),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Row(
-                                            children: [
                                               _buildTextField(
                                                 controller:
                                                     TextEditingController(),
@@ -784,66 +851,6 @@ class MemberScreen {
                                                 onChanged: (value) =>
                                                     memberScreenController
                                                         .getAdhaar(value),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Flexible(
-                                                child: DropdownButtonFormField2(
-                                                  decoration:
-                                                      _dropDownDecocration(),
-                                                  isExpanded: true,
-                                                  hint: const Text(
-                                                    'Package',
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: AppColors.grey,
-                                                    ),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color: AppColors.grey,
-                                                  ),
-                                                  iconSize: 20,
-                                                  // buttonHeight: 60,
-                                                  buttonWidth: 90,
-                                                  buttonPadding:
-                                                      EdgeInsets.symmetric(
-                                                    horizontal: 5,
-                                                  ),
-                                                  dropdownDecoration:
-                                                      BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color: AppColors.grey,
-                                                        width: 0.3),
-                                                  ),
-                                                  items: genderItems
-                                                      .map((item) =>
-                                                          DropdownMenuItem<
-                                                              String>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 12,
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                                  onChanged: (value) {
-                                                    //Do something when changing the item if you want.
-                                                  },
-                                                  onSaved: (value) {
-                                                    selectedValue =
-                                                        value.toString();
-                                                  },
-                                                ),
                                               ),
                                             ],
                                           ),
@@ -865,26 +872,110 @@ class MemberScreen {
                                                 width: 10,
                                               ),
                                               Flexible(
-                                                  child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blue
-                                                      .withOpacity(0.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 0.3),
-                                                ),
-                                                child: Center(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text(
-                                                      'Register',
-                                                      style: TextStyle(
-                                                        color: AppColors.white,
-                                                        fontSize: 12,
+                                                child: Obx(() =>
+                                                    DropdownButtonFormField2(
+                                                      decoration:
+                                                          _dropDownDecocration(),
+                                                      isExpanded: true,
+                                                      hint: const Text(
+                                                        'Package',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: AppColors.grey,
+                                                        ),
+                                                      ),
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color: AppColors.grey,
+                                                      ),
+                                                      iconSize: 20,
+                                                      // buttonHeight: 60,
+                                                      buttonWidth: 90,
+                                                      buttonPadding:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal: 5,
+                                                      ),
+                                                      dropdownDecoration:
+                                                          BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                            color:
+                                                                AppColors.grey,
+                                                            width: 0.3),
+                                                      ),
+                                                      items: memberScreenController
+                                                          .packages
+                                                          .map((item) =>
+                                                              DropdownMenuItem(
+                                                                value: item,
+                                                                child: Text(
+                                                                  item.name,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color:
+                                                                        AppColors
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                      onChanged: (value) {
+                                                        selectedValue = value;
+                                                        memberScreenController
+                                                            .setPackage(
+                                                                selectedValue.id
+                                                                    .toString());
+                                                      },
+                                                      onSaved: (value) {
+                                                        selectedValue =
+                                                            value.toString();
+                                                      },
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Flexible(
+                                                  child: InkWell(
+                                                onTap: () {
+                                                  memberScreenController
+                                                      .registerCustomer(
+                                                          context);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.blue
+                                                        .withOpacity(0.5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                        color: Colors.grey,
+                                                        width: 0.3),
+                                                  ),
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        'Register',
+                                                        style: TextStyle(
+                                                          color:
+                                                              AppColors.white,
+                                                          fontSize: 12,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -989,9 +1080,13 @@ class MemberScreen {
   }
 
   Flexible _buildTextFieldDate(
-      {required String hint, int lines = 1, required BuildContext context}) {
+      {required String hint,
+      int lines = 1,
+      required BuildContext context,
+      required TextEditingController controller}) {
     return Flexible(
       child: TextField(
+        controller: controller,
         style: TextStyle(
           color: AppColors.grey,
           fontSize: 12,
@@ -1035,7 +1130,7 @@ class MemberScreen {
           ),
         ),
         onTap: () {
-          homeController.selectDate(context);
+          memberScreenController.selectDate(context);
         },
       ),
     );
