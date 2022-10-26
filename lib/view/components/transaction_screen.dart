@@ -193,7 +193,287 @@ class TransactionScreen {
                           ),
                         ),
                         _buildIconTile(
-                            icon: Icons.person, title: 'Details', onTap: () {}),
+                            icon: Icons.person,
+                            title: 'Details',
+                            onTap: () {
+                              showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 10, sigmaY: 10),
+                                    child: AlertDialog(
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Transactions Details',
+                                              style: TextStyle(
+                                                  color: AppColors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600)),
+                                          IconButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            icon: Container(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border: Border.all(
+                                                    color: AppColors.grey,
+                                                    width: 0.3),
+                                              ),
+                                              child: Icon(
+                                                Icons.close,
+                                                color: AppColors.black,
+                                                size: 20,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      backgroundColor:
+                                          Colors.grey.withOpacity(0.3),
+                                      content: Container(
+                                          width: size.width * 0.3,
+                                          height: size.height * 0.5,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Card(
+                                                  color: AppColors.glass,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 15),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        _buildTransDetailText(
+                                                            title:
+                                                                'Transaction ID',
+                                                            value:
+                                                                'TXNGS-28373'),
+                                                        _buildTransDetailTextRight(
+                                                            title:
+                                                                'Payment Mode',
+                                                            value: 'Gpay'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Card(
+                                                  color: AppColors.glass,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 15),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        _buildTransDetailText(
+                                                            title:
+                                                                'Customer Name',
+                                                            value:
+                                                                'Salman Khan'),
+                                                        Text(
+                                                          'GS654',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Card(
+                                                  color: AppColors.glass,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 15),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        _buildTransDetailText(
+                                                            title: 'Package',
+                                                            value:
+                                                                'Monthly Premium plus'),
+                                                        Text(
+                                                          'Rs. 500',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Card(
+                                                  color: AppColors.glass,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 15),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        _buildTransDetailText(
+                                                            title:
+                                                                'Transaction Note',
+                                                            value:
+                                                                'Monthly Premium plus'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Card(
+                                                        color: AppColors.glass,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      20,
+                                                                  vertical: 15),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              _buildTransDetailText(
+                                                                  title:
+                                                                      'Transaction Date',
+                                                                  value:
+                                                                      '12/12/2020'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Expanded(
+                                                      child: Card(
+                                                        color: AppColors.glass,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      20,
+                                                                  vertical: 15),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              _buildTransDetailText(
+                                                                  title:
+                                                                      'Transaction Amount',
+                                                                  value:
+                                                                      'Rs. 500'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ),
+                                  );
+                                },
+                              );
+                            }),
                       ],
                     ),
                   );
@@ -270,7 +550,7 @@ class TransactionScreen {
                                 backgroundColor: Colors.grey.withOpacity(0.3),
                                 content: Container(
                                     width: size.width * 0.5,
-                                    height: size.height * 0.5,
+                                    height: size.height * 0.4,
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
@@ -298,34 +578,8 @@ class TransactionScreen {
                                             children: [
                                               Flexible(
                                                 child: DropdownButtonFormField2(
-                                                  decoration: InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 5),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      ),
-                                                      fillColor: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      filled: true,
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      )),
+                                                  decoration:
+                                                      _dropDownDecocration(),
                                                   isExpanded: true,
                                                   hint: const Text(
                                                     'Payment Mode',
@@ -413,45 +667,7 @@ class TransactionScreen {
                                                           child:
                                                               DropdownButtonFormField2(
                                                             decoration:
-                                                                InputDecoration(
-                                                                    isDense:
-                                                                        true,
-                                                                    contentPadding:
-                                                                        EdgeInsets.symmetric(
-                                                                            vertical:
-                                                                                5),
-                                                                    border:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        color: AppColors
-                                                                            .grey,
-                                                                        width:
-                                                                            0.3,
-                                                                      ),
-                                                                    ),
-                                                                    fillColor: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                            0.2),
-                                                                    filled:
-                                                                        true,
-                                                                    enabledBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12),
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        color: AppColors
-                                                                            .grey,
-                                                                        width:
-                                                                            0.3,
-                                                                      ),
-                                                                    )),
+                                                                _dropDownDecocration(),
                                                             isExpanded: true,
                                                             hint: const Text(
                                                               'Package',
@@ -598,6 +814,73 @@ class TransactionScreen {
     );
   }
 
+  Column _buildTransDetailText({required String title, required String value}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              color: AppColors.white, fontSize: 8, fontWeight: FontWeight.w400),
+        ),
+        Text(
+          value,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              color: AppColors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+
+  Column _buildTransDetailTextRight(
+      {required String title, required String value}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          title,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              color: AppColors.white, fontSize: 8, fontWeight: FontWeight.w400),
+        ),
+        Text(
+          value,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              color: AppColors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+
+  InputDecoration _dropDownDecocration() {
+    return InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: AppColors.grey,
+            width: 0.3,
+          ),
+        ),
+        fillColor: Colors.grey.withOpacity(0.2),
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: AppColors.grey,
+            width: 0.3,
+          ),
+        ));
+  }
+
   Flexible _buildTextField(
       {required String hint,
       required Function(String value) onChanged,
@@ -616,7 +899,7 @@ class TransactionScreen {
             color: AppColors.grey,
             fontSize: 12,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
@@ -640,10 +923,7 @@ class TransactionScreen {
   }
 
   Flexible _buildTextFieldDate(
-      {required String hint,
-      required Function() onTap,
-      int lines = 1,
-      required BuildContext context}) {
+      {required String hint, int lines = 1, required BuildContext context}) {
     return Flexible(
       child: TextField(
         style: TextStyle(
@@ -658,7 +938,7 @@ class TransactionScreen {
             color: AppColors.grey,
             fontSize: 12,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
@@ -666,9 +946,13 @@ class TransactionScreen {
               width: 0.3,
             ),
           ),
-          suffixIcon: InkWell(
-              onTap: homeController.selectDate(context),
-              child: Icon(Icons.calendar_today)),
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.calendar_today,
+              size: 15,
+            ),
+          ),
           suffixIconConstraints: BoxConstraints(
             maxHeight: 20,
             maxWidth: 20,
@@ -683,7 +967,9 @@ class TransactionScreen {
             ),
           ),
         ),
-        onTap: onTap,
+        onTap: () {
+          homeController.selectDate(context);
+        },
       ),
     );
   }

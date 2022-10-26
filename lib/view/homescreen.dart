@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _items = _generateItems;
-    _headline = _items.firstWhere((item) => item.isSelected).text;
+    _headline = 'member';
   }
 
   List<CollapsibleItem> get _generateItems {

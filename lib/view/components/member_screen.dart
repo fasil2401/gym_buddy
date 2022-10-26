@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:gym/controller/home_controller.dart';
+import 'package:gym/controller/member_screen_controller.dart';
 import 'package:gym/utils/constants/colors.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 
 class MemberScreen {
   final HomeController homeController = Get.put(HomeController());
+  final memberScreenController = Get.put(MemberScreenController());
 
   final List<String> genderItems = [
     'Male',
@@ -444,24 +446,32 @@ class MemberScreen {
                                 backgroundColor: Colors.grey.withOpacity(0.3),
                                 content: Container(
                                     width: size.width * 0.5,
-                                    height: size.height * 0.5,
+                                    height: size.height * 0.7,
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
                                           Row(
                                             children: [
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Name',
+                                                textInputType:
+                                                    TextInputType.text,
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getName(value),
                                               ),
                                               SizedBox(
                                                 width: 10,
                                               ),
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Mobile number',
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getMobile(value),
                                               ),
                                             ],
                                           ),
@@ -472,34 +482,8 @@ class MemberScreen {
                                             children: [
                                               Flexible(
                                                 child: DropdownButtonFormField2(
-                                                  decoration: InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 5),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      ),
-                                                      fillColor: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      filled: true,
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      )),
+                                                  decoration:
+                                                      _dropDownDecocration(),
                                                   isExpanded: true,
                                                   hint: const Text(
                                                     'Gender',
@@ -544,7 +528,9 @@ class MemberScreen {
                                                           ))
                                                       .toList(),
                                                   onChanged: (value) {
-                                                    //Do something when changing the item if you want.
+                                                    memberScreenController
+                                                        .setGender(
+                                                            value.toString());
                                                   },
                                                   onSaved: (value) {
                                                     selectedValue =
@@ -556,9 +542,14 @@ class MemberScreen {
                                                 width: 10,
                                               ),
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Job',
+                                                textInputType:
+                                                    TextInputType.text,
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getJob(value),
                                               ),
                                             ],
                                           ),
@@ -568,17 +559,27 @@ class MemberScreen {
                                           Row(
                                             children: [
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Pincode',
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getPincode(value),
                                               ),
                                               SizedBox(
                                                 width: 10,
                                               ),
-                                              _buildTextField(
-                                                hint: 'State',
-                                                onChanged: (value) =>
-                                                    print(value),
+                                              Obx(
+                                                () => _buildTextField(
+                                                  controller: TextEditingController(
+                                                      text:
+                                                          memberScreenController
+                                                              .state.value),
+                                                  hint: 'State',
+                                                  isReadOnly: true,
+                                                  onChanged: (value) =>
+                                                      print(value),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -587,95 +588,83 @@ class MemberScreen {
                                           ),
                                           Row(
                                             children: [
-                                              _buildTextField(
-                                                hint: 'District',
-                                                onChanged: (value) =>
-                                                    print(value),
+                                              Obx(
+                                                () => _buildTextField(
+                                                  controller: TextEditingController(
+                                                      text:
+                                                          memberScreenController
+                                                              .district.value),
+                                                  hint: 'District',
+                                                  isReadOnly: true,
+                                                  onChanged: (value) =>
+                                                      print(value),
+                                                ),
                                               ),
                                               SizedBox(
                                                 width: 10,
                                               ),
                                               Flexible(
-                                                child: DropdownButtonFormField2(
-                                                  decoration: InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
+                                                child: Obx(() =>
+                                                    DropdownButtonFormField2(
+                                                      decoration:
+                                                          _dropDownDecocration(),
+                                                      isExpanded: true,
+                                                      hint: const Text(
+                                                        'Area',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: AppColors.grey,
+                                                        ),
+                                                      ),
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color: AppColors.grey,
+                                                      ),
+                                                      iconSize: 20,
+                                                      // buttonHeight: 60,
+                                                      buttonWidth: 90,
+                                                      buttonPadding:
                                                           EdgeInsets.symmetric(
-                                                              vertical: 5),
-                                                      border:
-                                                          OutlineInputBorder(
+                                                              horizontal: 5),
+                                                      dropdownDecoration:
+                                                          BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(10),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
+                                                        border: Border.all(
+                                                            color:
+                                                                AppColors.grey,
+                                                            width: 0.3),
                                                       ),
-                                                      fillColor: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      filled: true,
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      )),
-                                                  isExpanded: true,
-                                                  hint: const Text(
-                                                    'Area',
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: AppColors.grey,
-                                                    ),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color: AppColors.grey,
-                                                  ),
-                                                  iconSize: 20,
-                                                  // buttonHeight: 60,
-                                                  buttonWidth: 90,
-                                                  buttonPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 5),
-                                                  dropdownDecoration:
-                                                      BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color: AppColors.grey,
-                                                        width: 0.3),
-                                                  ),
-                                                  items: genderItems
-                                                      .map((item) =>
-                                                          DropdownMenuItem<
-                                                              String>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 12,
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                                  onChanged: (value) {
-                                                    //Do something when changing the item if you want.
-                                                  },
-                                                  onSaved: (value) {
-                                                    selectedValue =
-                                                        value.toString();
-                                                  },
-                                                ),
+                                                      items: memberScreenController
+                                                          .areas.value
+                                                          .map((item) =>
+                                                              DropdownMenuItem<
+                                                                  String>(
+                                                                value: item,
+                                                                child: Text(
+                                                                  item,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color:
+                                                                        AppColors
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                      onChanged: (value) {
+                                                        memberScreenController
+                                                            .setArea(value
+                                                                .toString());
+                                                      },
+                                                      onSaved: (value) {
+                                                        selectedValue =
+                                                            value.toString();
+                                                      },
+                                                    )),
                                               ),
                                             ],
                                           ),
@@ -687,9 +676,14 @@ class MemberScreen {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Address',
+                                                textInputType:
+                                                    TextInputType.text,
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getAddress(value),
                                                 lines: 4,
                                               ),
                                               SizedBox(
@@ -701,17 +695,25 @@ class MemberScreen {
                                                     Row(
                                                       children: [
                                                         _buildTextField(
+                                                          controller:
+                                                              TextEditingController(),
                                                           hint: 'Weight',
                                                           onChanged: (value) =>
-                                                              print(value),
+                                                              memberScreenController
+                                                                  .getWeight(
+                                                                      value),
                                                         ),
                                                         SizedBox(
                                                           width: 10,
                                                         ),
                                                         _buildTextField(
+                                                          controller:
+                                                              TextEditingController(),
                                                           hint: 'Height',
                                                           onChanged: (value) =>
-                                                              print(value),
+                                                              memberScreenController
+                                                                  .getHeight(
+                                                                      value),
                                                         ),
                                                       ],
                                                     ),
@@ -721,18 +723,32 @@ class MemberScreen {
                                                     Row(
                                                       children: [
                                                         _buildTextField(
+                                                          controller:
+                                                              TextEditingController(),
                                                           hint: 'Age',
                                                           onChanged: (value) =>
-                                                              print(value),
+                                                              memberScreenController
+                                                                  .getAge(
+                                                                      value),
                                                         ),
                                                         SizedBox(
                                                           width: 10,
                                                         ),
-                                                        _buildTextField(
-                                                          hint: 'Scroe',
-                                                          onChanged: (value) =>
-                                                              print(value),
-                                                        ),
+                                                        Obx(
+                                                          () => _buildTextField(
+                                                            controller:
+                                                                TextEditingController(
+                                                                    text: memberScreenController
+                                                                        .score
+                                                                        .value),
+                                                            hint: 'Scroe',
+                                                            isReadOnly: true,
+                                                            onChanged:
+                                                                (value) =>
+                                                                    print(
+                                                                        value),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                   ],
@@ -743,60 +759,39 @@ class MemberScreen {
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          // Row(
-                                          //   children: [
-                                          //     _buildTextFieldDate(
-                                          //         hint: 'Joining Date', onTap: () {}),
-                                          //     SizedBox(
-                                          //       width: 10,
-                                          //     ),
-                                          //     _buildTextFieldDate(
-                                          //         hint: 'Reminder Date', onTap: () {}),
-                                          //   ],
-                                          // ),
+                                          Row(
+                                            children: [
+                                              _buildTextFieldDate(
+                                                  hint: 'Joining Date',
+                                                  context: context),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              _buildTextFieldDate(
+                                                  hint: 'Reminder Date',
+                                                  context: context),
+                                            ],
+                                          ),
                                           SizedBox(
                                             height: 15,
                                           ),
                                           Row(
                                             children: [
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Aadhaar number',
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getAdhaar(value),
                                               ),
                                               SizedBox(
                                                 width: 10,
                                               ),
                                               Flexible(
                                                 child: DropdownButtonFormField2(
-                                                  decoration: InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 5),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      ),
-                                                      fillColor: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      filled: true,
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        borderSide: BorderSide(
-                                                          color: AppColors.grey,
-                                                          width: 0.3,
-                                                        ),
-                                                      )),
+                                                  decoration:
+                                                      _dropDownDecocration(),
                                                   isExpanded: true,
                                                   hint: const Text(
                                                     'Package',
@@ -814,7 +809,8 @@ class MemberScreen {
                                                   buttonWidth: 90,
                                                   buttonPadding:
                                                       EdgeInsets.symmetric(
-                                                          horizontal: 5),
+                                                    horizontal: 5,
+                                                  ),
                                                   dropdownDecoration:
                                                       BoxDecoration(
                                                     borderRadius:
@@ -857,9 +853,13 @@ class MemberScreen {
                                           Row(
                                             children: [
                                               _buildTextField(
+                                                controller:
+                                                    TextEditingController(),
                                                 hint: 'Registration Fee',
                                                 onChanged: (value) =>
-                                                    print(value),
+                                                    memberScreenController
+                                                        .getRegistrationFee(
+                                                            value),
                                               ),
                                               SizedBox(
                                                 width: 10,
@@ -895,7 +895,6 @@ class MemberScreen {
                                         ],
                                       ),
                                     )),
-                               
                               ),
                             );
                           },
@@ -920,17 +919,45 @@ class MemberScreen {
     );
   }
 
+  InputDecoration _dropDownDecocration() {
+    return InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: AppColors.grey,
+            width: 0.3,
+          ),
+        ),
+        fillColor: Colors.grey.withOpacity(0.2),
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: AppColors.grey,
+            width: 0.3,
+          ),
+        ));
+  }
+
   Flexible _buildTextField(
       {required String hint,
       required Function(String value) onChanged,
-      int lines = 1}) {
+      int lines = 1,
+      bool isReadOnly = false,
+      TextInputType textInputType = TextInputType.number,
+      required TextEditingController controller}) {
     return Flexible(
       child: TextField(
+        controller: controller,
         style: TextStyle(
           color: AppColors.grey,
           fontSize: 12,
         ),
         maxLines: lines,
+        keyboardType: textInputType,
+        readOnly: isReadOnly,
         decoration: InputDecoration(
           isCollapsed: true,
           hintText: hint,
@@ -938,7 +965,7 @@ class MemberScreen {
             color: AppColors.grey,
             fontSize: 12,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
@@ -962,16 +989,14 @@ class MemberScreen {
   }
 
   Flexible _buildTextFieldDate(
-      {required String hint,
-      required Function() onTap,
-      int lines = 1,
-      required BuildContext context}) {
+      {required String hint, int lines = 1, required BuildContext context}) {
     return Flexible(
       child: TextField(
         style: TextStyle(
           color: AppColors.grey,
           fontSize: 12,
         ),
+        readOnly: true,
         maxLines: lines,
         decoration: InputDecoration(
           isCollapsed: true,
@@ -980,7 +1005,7 @@ class MemberScreen {
             color: AppColors.grey,
             fontSize: 12,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
@@ -988,9 +1013,13 @@ class MemberScreen {
               width: 0.3,
             ),
           ),
-          suffixIcon: InkWell(
-              onTap: homeController.selectDate(context),
-              child: Icon(Icons.calendar_today)),
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.calendar_today,
+              size: 15,
+            ),
+          ),
           suffixIconConstraints: BoxConstraints(
             maxHeight: 20,
             maxWidth: 20,
@@ -1005,7 +1034,9 @@ class MemberScreen {
             ),
           ),
         ),
-        onTap: onTap,
+        onTap: () {
+          homeController.selectDate(context);
+        },
       ),
     );
   }

@@ -11,4 +11,5 @@ class AppColors {
   static const Color yellow = Color(0xFFF6B100);
   static const Color red = Color(0xFFE60000);
   static const Color green = Color(0xFF00A600);
+  static  Color glass = Colors.grey.withOpacity(0.2);
 }
