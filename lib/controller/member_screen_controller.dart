@@ -328,19 +328,10 @@ class MemberScreenController extends GetxController {
           api:
               'customers?page=${pageNumber.value.toString()}&pageSize=${pageSizes.value.toString()}&query=${query.value}&gender=${filterGender.value}&status=${filterStatus.value}&from=${dateFrom.value}&to=${dateTo.value}');
       if (feedback != null) {
-        // result = customer.CustomerListModel.fromJson(feedback);
-        // respStatus.value = result.statusCode;
         result = feedback['data']['customers'];
-        // members.value = result;
         print(result.runtimeType);
         members.clear();
         for (var member in result) {
-          // print(member['name'].toString());
-          String name = member['name'].toString();
-
-          print('name is   $name');
-
-          // members.add(name);
           members.add(MemberModel(
             id: member['_id'].toString(),
             name: member['name'].toString(),

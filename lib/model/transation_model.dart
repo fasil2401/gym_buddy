@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final transactionListModel = transactionListModelFromJson(jsonString);
 
 import 'dart:convert';
 
