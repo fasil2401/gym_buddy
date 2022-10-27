@@ -61,7 +61,7 @@ class MemberScreenController extends GetxController {
     status.value = value == 'Active' ? true : false;
     print(status.value);
     await setFieldValues(member);
-    updateMember(context, member.id);
+    updateMember(context, member.id, false);
   }
 
   setFilterStatus(String value) {
@@ -218,6 +218,7 @@ class MemberScreenController extends GetxController {
         if (respMessage.value == 'Success') {
           state.value = result.postOffice[0].state;
           district.value = result.postOffice[0].district;
+          areas.clear();
           for (var area in result.postOffice) {
             areas.add(area.name);
           }
@@ -310,6 +311,7 @@ class MemberScreenController extends GetxController {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Customer Registered Successfully"),
           ));
+          getMenbers();
         } else {
           isLoading.value = false;
           mobileError.value = true;
@@ -367,7 +369,7 @@ class MemberScreenController extends GetxController {
     }
   }
 
-  updateMember(BuildContext context, String id) async {
+  updateMember(BuildContext context, String id, bool isEditing) async {
     print('id is $id');
     final data = json.encode({
       "name": name.value,
@@ -383,7 +385,7 @@ class MemberScreenController extends GetxController {
       "height": double.parse(height.value),
       "age": int.parse(age.value),
       "score": double.parse(score.value),
-      "joiningDate": joiningDate.value,
+      "joiningDate": joiningDate.value.toString(),
       "aadhaar": adhaar.value,
       "package": packageId.value,
       "status": status.value
@@ -413,6 +415,9 @@ class MemberScreenController extends GetxController {
           content: Text("Customer Updated Successfully"),
         ));
         getMenbers();
+        if (isEditing) {
+          Navigator.of(context).pop();
+        }
       } else {
         isLoading.value = false;
         mobileError.value = true;

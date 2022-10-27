@@ -41,7 +41,7 @@ class TransactionScreen {
               children: [
                 Expanded(
                   child: Text(
-                    'Transactions of Jiss Anto',
+                    'Transactions',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: AppColors.white,
@@ -550,6 +550,16 @@ class TransactionScreen {
                   SizedBox(
                     width: 10,
                   ),
+                  Obx(() => Text(
+                        '${transactionScreenController.pageNumber.value}',
+                        style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                      )),
+                  SizedBox(
+                    width: 10,
+                  ),
                   _buildIconTileRight(
                       icon: Icons.skip_next,
                       title: 'Next',
@@ -559,298 +569,298 @@ class TransactionScreen {
                   SizedBox(
                     width: 10,
                   ),
-                  _buildIconTile(
-                      icon: Icons.add_circle_outline_outlined,
-                      title: 'Add Transactions',
-                      onTap: () {
-                        showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: AlertDialog(
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text('Add Transaction to Jiss Anto',
-                                        style: TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: Container(
-                                        decoration: BoxDecoration(
-                                          color: AppColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          border: Border.all(
-                                              color: AppColors.grey,
-                                              width: 0.3),
-                                        ),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: AppColors.black,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: Colors.grey.withOpacity(0.3),
-                                content: Container(
-                                    width: size.width * 0.5,
-                                    height: size.height * 0.4,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              _buildTextField(
-                                                hint: 'TXNGS-3429',
-                                                onChanged: (value) =>
-                                                    print(value),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              _buildTextField(
-                                                hint: 'Transaction Date',
-                                                onChanged: (value) =>
-                                                    print(value),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Flexible(
-                                                child: DropdownButtonFormField2(
-                                                  decoration:
-                                                      _dropDownDecocration(),
-                                                  isExpanded: true,
-                                                  hint: const Text(
-                                                    'Payment Mode',
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: AppColors.grey,
-                                                    ),
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color: AppColors.grey,
-                                                  ),
-                                                  iconSize: 20,
-                                                  // buttonHeight: 60,
-                                                  buttonWidth: 90,
-                                                  buttonPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 5),
-                                                  dropdownDecoration:
-                                                      BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                        color: AppColors.grey,
-                                                        width: 0.3),
-                                                  ),
-                                                  items: genderItems
-                                                      .map((item) =>
-                                                          DropdownMenuItem<
-                                                              String>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 12,
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                                  onChanged: (value) {
-                                                    //Do something when changing the item if you want.
-                                                  },
-                                                  onSaved: (value) {
-                                                    selectedValue =
-                                                        value.toString();
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              _buildTextField(
-                                                hint: 'Transaction Fee',
-                                                onChanged: (value) =>
-                                                    print(value),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              _buildTextField(
-                                                hint: 'Transaction Note',
-                                                onChanged: (value) =>
-                                                    print(value),
-                                                lines: 4,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Flexible(
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Flexible(
-                                                          child:
-                                                              DropdownButtonFormField2(
-                                                            decoration:
-                                                                _dropDownDecocration(),
-                                                            isExpanded: true,
-                                                            hint: const Text(
-                                                              'Package',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
-                                                            ),
-                                                            icon: const Icon(
-                                                              Icons
-                                                                  .arrow_drop_down,
-                                                              color: AppColors
-                                                                  .grey,
-                                                            ),
-                                                            iconSize: 20,
-                                                            // buttonHeight: 60,
-                                                            buttonWidth: 90,
-                                                            buttonPadding:
-                                                                EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            5),
-                                                            dropdownDecoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border: Border.all(
-                                                                  color:
-                                                                      AppColors
-                                                                          .grey,
-                                                                  width: 0.3),
-                                                            ),
-                                                            items: genderItems
-                                                                .map((item) =>
-                                                                    DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          item,
-                                                                      child:
-                                                                          Text(
-                                                                        item,
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              AppColors.grey,
-                                                                        ),
-                                                                      ),
-                                                                    ))
-                                                                .toList(),
-                                                            onChanged: (value) {
-                                                              //Do something when changing the item if you want.
-                                                            },
-                                                            onSaved: (value) {
-                                                              selectedValue =
-                                                                  value
-                                                                      .toString();
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        _buildTextField(
-                                                          hint:
-                                                              'Package Amount',
-                                                          onChanged: (value) =>
-                                                              print(value),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blue
-                                                      .withOpacity(0.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 0.3),
-                                                ),
-                                                child: Center(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 20,
-                                                        vertical: 8),
-                                                    child: Text(
-                                                      'Add',
-                                                      style: TextStyle(
-                                                        color: AppColors.white,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                            );
-                          },
-                        );
-                      }),
+                  // _buildIconTile(
+                  //     icon: Icons.add_circle_outline_outlined,
+                  //     title: 'Add Transactions',
+                  //     onTap: () {
+                  //       showDialog<void>(
+                  //         context: context,
+                  //         builder: (BuildContext context) {
+                  //           return BackdropFilter(
+                  //             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  //             child: AlertDialog(
+                  //               title: Row(
+                  //                 mainAxisAlignment:
+                  //                     MainAxisAlignment.spaceBetween,
+                  //                 children: [
+                  //                   const Text('Add Transaction to Jiss Anto',
+                  //                       style: TextStyle(
+                  //                           color: AppColors.white,
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.w600)),
+                  //                   IconButton(
+                  //                     onPressed: () {
+                  //                       Navigator.pop(context);
+                  //                     },
+                  //                     icon: Container(
+                  //                       decoration: BoxDecoration(
+                  //                         color: AppColors.white,
+                  //                         borderRadius:
+                  //                             BorderRadius.circular(5),
+                  //                         border: Border.all(
+                  //                             color: AppColors.grey,
+                  //                             width: 0.3),
+                  //                       ),
+                  //                       child: Icon(
+                  //                         Icons.close,
+                  //                         color: AppColors.black,
+                  //                         size: 20,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //               shape: RoundedRectangleBorder(
+                  //                 borderRadius: BorderRadius.circular(20),
+                  //               ),
+                  //               backgroundColor: Colors.grey.withOpacity(0.3),
+                  //               content: Container(
+                  //                   width: size.width * 0.5,
+                  //                   height: size.height * 0.4,
+                  //                   child: SingleChildScrollView(
+                  //                     child: Column(
+                  //                       children: [
+                  //                         Row(
+                  //                           children: [
+                  //                             _buildTextField(
+                  //                               hint: 'TXNGS-3429',
+                  //                               onChanged: (value) =>
+                  //                                   print(value),
+                  //                             ),
+                  //                             SizedBox(
+                  //                               width: 10,
+                  //                             ),
+                  //                             _buildTextField(
+                  //                               hint: 'Transaction Date',
+                  //                               onChanged: (value) =>
+                  //                                   print(value),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                         SizedBox(
+                  //                           height: 15,
+                  //                         ),
+                  //                         Row(
+                  //                           children: [
+                  //                             Flexible(
+                  //                               child: DropdownButtonFormField2(
+                  //                                 decoration:
+                  //                                     _dropDownDecocration(),
+                  //                                 isExpanded: true,
+                  //                                 hint: const Text(
+                  //                                   'Payment Mode',
+                  //                                   style: TextStyle(
+                  //                                     fontSize: 12,
+                  //                                     color: AppColors.grey,
+                  //                                   ),
+                  //                                 ),
+                  //                                 icon: const Icon(
+                  //                                   Icons.arrow_drop_down,
+                  //                                   color: AppColors.grey,
+                  //                                 ),
+                  //                                 iconSize: 20,
+                  //                                 // buttonHeight: 60,
+                  //                                 buttonWidth: 90,
+                  //                                 buttonPadding:
+                  //                                     EdgeInsets.symmetric(
+                  //                                         horizontal: 5),
+                  //                                 dropdownDecoration:
+                  //                                     BoxDecoration(
+                  //                                   borderRadius:
+                  //                                       BorderRadius.circular(
+                  //                                           10),
+                  //                                   border: Border.all(
+                  //                                       color: AppColors.grey,
+                  //                                       width: 0.3),
+                  //                                 ),
+                  //                                 items: genderItems
+                  //                                     .map((item) =>
+                  //                                         DropdownMenuItem<
+                  //                                             String>(
+                  //                                           value: item,
+                  //                                           child: Text(
+                  //                                             item,
+                  //                                             style:
+                  //                                                 const TextStyle(
+                  //                                               fontSize: 12,
+                  //                                               color: AppColors
+                  //                                                   .grey,
+                  //                                             ),
+                  //                                           ),
+                  //                                         ))
+                  //                                     .toList(),
+                  //                                 onChanged: (value) {
+                  //                                   //Do something when changing the item if you want.
+                  //                                 },
+                  //                                 onSaved: (value) {
+                  //                                   selectedValue =
+                  //                                       value.toString();
+                  //                                 },
+                  //                               ),
+                  //                             ),
+                  //                             SizedBox(
+                  //                               width: 10,
+                  //                             ),
+                  //                             _buildTextField(
+                  //                               hint: 'Transaction Fee',
+                  //                               onChanged: (value) =>
+                  //                                   print(value),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                         SizedBox(
+                  //                           height: 15,
+                  //                         ),
+                  //                         Row(
+                  //                           crossAxisAlignment:
+                  //                               CrossAxisAlignment.start,
+                  //                           children: [
+                  //                             _buildTextField(
+                  //                               hint: 'Transaction Note',
+                  //                               onChanged: (value) =>
+                  //                                   print(value),
+                  //                               lines: 4,
+                  //                             ),
+                  //                             SizedBox(
+                  //                               width: 10,
+                  //                             ),
+                  //                             Flexible(
+                  //                               child: Column(
+                  //                                 children: [
+                  //                                   Row(
+                  //                                     children: [
+                  //                                       Flexible(
+                  //                                         child:
+                  //                                             DropdownButtonFormField2(
+                  //                                           decoration:
+                  //                                               _dropDownDecocration(),
+                  //                                           isExpanded: true,
+                  //                                           hint: const Text(
+                  //                                             'Package',
+                  //                                             style: TextStyle(
+                  //                                               fontSize: 12,
+                  //                                               color: AppColors
+                  //                                                   .grey,
+                  //                                             ),
+                  //                                           ),
+                  //                                           icon: const Icon(
+                  //                                             Icons
+                  //                                                 .arrow_drop_down,
+                  //                                             color: AppColors
+                  //                                                 .grey,
+                  //                                           ),
+                  //                                           iconSize: 20,
+                  //                                           // buttonHeight: 60,
+                  //                                           buttonWidth: 90,
+                  //                                           buttonPadding:
+                  //                                               EdgeInsets
+                  //                                                   .symmetric(
+                  //                                                       horizontal:
+                  //                                                           5),
+                  //                                           dropdownDecoration:
+                  //                                               BoxDecoration(
+                  //                                             borderRadius:
+                  //                                                 BorderRadius
+                  //                                                     .circular(
+                  //                                                         10),
+                  //                                             border: Border.all(
+                  //                                                 color:
+                  //                                                     AppColors
+                  //                                                         .grey,
+                  //                                                 width: 0.3),
+                  //                                           ),
+                  //                                           items: genderItems
+                  //                                               .map((item) =>
+                  //                                                   DropdownMenuItem<
+                  //                                                       String>(
+                  //                                                     value:
+                  //                                                         item,
+                  //                                                     child:
+                  //                                                         Text(
+                  //                                                       item,
+                  //                                                       style:
+                  //                                                           const TextStyle(
+                  //                                                         fontSize:
+                  //                                                             12,
+                  //                                                         color:
+                  //                                                             AppColors.grey,
+                  //                                                       ),
+                  //                                                     ),
+                  //                                                   ))
+                  //                                               .toList(),
+                  //                                           onChanged: (value) {
+                  //                                             //Do something when changing the item if you want.
+                  //                                           },
+                  //                                           onSaved: (value) {
+                  //                                             selectedValue =
+                  //                                                 value
+                  //                                                     .toString();
+                  //                                           },
+                  //                                         ),
+                  //                                       ),
+                  //                                     ],
+                  //                                   ),
+                  //                                   SizedBox(
+                  //                                     height: 10,
+                  //                                   ),
+                  //                                   Row(
+                  //                                     children: [
+                  //                                       _buildTextField(
+                  //                                         hint:
+                  //                                             'Package Amount',
+                  //                                         onChanged: (value) =>
+                  //                                             print(value),
+                  //                                       ),
+                  //                                     ],
+                  //                                   ),
+                  //                                 ],
+                  //                               ),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                         SizedBox(
+                  //                           height: 15,
+                  //                         ),
+                  //                         Row(
+                  //                           mainAxisAlignment:
+                  //                               MainAxisAlignment.end,
+                  //                           children: [
+                  //                             Container(
+                  //                               decoration: BoxDecoration(
+                  //                                 color: Colors.blue
+                  //                                     .withOpacity(0.5),
+                  //                                 borderRadius:
+                  //                                     BorderRadius.circular(10),
+                  //                                 border: Border.all(
+                  //                                     color: Colors.grey,
+                  //                                     width: 0.3),
+                  //                               ),
+                  //                               child: Center(
+                  //                                 child: Padding(
+                  //                                   padding: const EdgeInsets
+                  //                                           .symmetric(
+                  //                                       horizontal: 20,
+                  //                                       vertical: 8),
+                  //                                   child: Text(
+                  //                                     'Add',
+                  //                                     style: TextStyle(
+                  //                                       color: AppColors.white,
+                  //                                       fontSize: 12,
+                  //                                     ),
+                  //                                   ),
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   )),
+                  //             ),
+                  //           );
+                  //         },
+                  //       );
+                  //     }),
                 ],
               ),
             ),
@@ -938,6 +948,47 @@ class TransactionScreen {
   }
 
   Flexible _buildTextField(
+      {required String hint,
+      required Function(String value) onChanged,
+      int lines = 1}) {
+    return Flexible(
+      child: TextField(
+        style: TextStyle(
+          color: AppColors.grey,
+          fontSize: 12,
+        ),
+        maxLines: lines,
+        decoration: InputDecoration(
+          isCollapsed: true,
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: AppColors.grey,
+            fontSize: 12,
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: AppColors.grey,
+              width: 0.3,
+            ),
+          ),
+          fillColor: Colors.grey.withOpacity(0.2),
+          filled: true,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: AppColors.grey,
+              width: 0.3,
+            ),
+          ),
+        ),
+        onChanged: onChanged,
+      ),
+    );
+  }
+
+  static Flexible buildTextField(
       {required String hint,
       required Function(String value) onChanged,
       int lines = 1}) {
@@ -1129,7 +1180,4 @@ class TransactionScreen {
       ],
     );
   }
-
-
-
 }

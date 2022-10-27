@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   var isSearching = false.obs;
-
+  var isTransaction = false.obs;
   void toggleSearch() {
     isSearching.value = !isSearching.value;
   }
-
+switchTransaction(bool value) {
+    isTransaction.value = value;
+  }
   pickDateRange(BuildContext context) async {
     DateTimeRange dateTime =
         DateTimeRange(start: DateTime.now(), end: DateTime.now());
