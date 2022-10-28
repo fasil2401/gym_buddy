@@ -41,6 +41,12 @@ class TransactionScreenController extends GetxController {
   var packageId = ''.obs;
   var fieldError = false.obs;
 
+
+removeFIlter() {
+    dateToCheck.value = '';
+    filterStatus.value = '';
+    getTransactions();
+  }
   setFilterStatus(String value) {
     value == 'Active'
         ? filterStatus.value = 'true'

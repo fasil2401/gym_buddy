@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
@@ -12,7 +10,6 @@ import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:gym/view/components/member_screen.dart';
 import 'package:gym/view/components/setting_screen.dart';
 import 'package:gym/view/components/transaction_screen.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,19 +21,19 @@ class _HomeScreenState extends State<HomeScreen> {
   var isDeviceConnected = false;
   bool isAlertSet = false;
 
-  getConnectivity() async {
-    subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) async {
-      isDeviceConnected = await InternetConnectionChecker().hasConnection;
-      if (isDeviceConnected && isAlertSet == false) {
-        showNetWorkDialog();
-        setState(() {
-          isAlertSet = true;
-        });
-      }
-    });
-  }
+  // getConnectivity() async {
+  //   subscription = Connectivity()
+  //       .onConnectivityChanged
+  //       .listen((ConnectivityResult result) async {
+  //     isDeviceConnected = await InternetConnectionChecker().hasConnection;
+  //     if (isDeviceConnected && isAlertSet == false) {
+  //       showNetWorkDialog();
+  //       setState(() {
+  //         isAlertSet = true;
+  //       });
+  //     }
+  //   });
+  // }
 
   final HomeController homeController = Get.put(HomeController());
 
@@ -56,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getConnectivity();
+    // getConnectivity();
     super.initState();
     _items = _generateItems;
     _headline = 'member';
@@ -135,9 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               setState(() {
                                 isAlertSet = false;
                               });
-                              isDeviceConnected =
-                                  await InternetConnectionChecker()
-                                      .hasConnection;
+                              // isDeviceConnected =
+                              //     await InternetConnectionChecker()
+                              //         .hasConnection;
                               if (isDeviceConnected) {
                                 showNetWorkDialog();
                                 setState(() {

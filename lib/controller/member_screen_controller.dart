@@ -57,6 +57,14 @@ class MemberScreenController extends GetxController {
   var mobileError = false.obs;
   var fieldError = false.obs;
 
+  removeFIlter() {
+    dateFrom.value = DateTime(2000).toString();
+    dateTo.value = DateTime.now().toString();
+    filterStatus.value = '';
+    filterGender.value = '';
+    getMenbers();
+  }
+
   changeStatus(String value, MemberModel member, BuildContext context) async {
     status.value = value == 'Active' ? true : false;
     print(status.value);

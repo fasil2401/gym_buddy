@@ -2,13 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:gym/controller/home_controller.dart';
 import 'package:gym/controller/member_screen_controller.dart';
 import 'package:gym/controller/transaction_screen_controller.dart';
 import 'package:gym/utils/constants/colors.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:gym/utils/date_formatter.dart';
 import 'package:gym/view/components/transaction_screen.dart';
 
@@ -496,7 +494,8 @@ class MemberScreen {
                                                 Row(
                                                   children: [
                                                     TransactionScreen.buildTextField(
-                                                        hint: 'Transaction Fee',
+                                                        hint:
+                                                            'Registration Fee',
                                                         onChanged: (value) =>
                                                             transactionScreenController
                                                                 .getTransactionFee(
@@ -755,6 +754,20 @@ class MemberScreen {
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
+                      ),
+                      Obx(
+                        () => Visibility(
+                          visible: !homeController.isSearching.value,
+                          child: _buildIconTile(
+                              icon: Icons.filter_list_off,
+                              title: 'Remove Filter',
+                              onTap: () {
+                                memberScreenController.removeFIlter();
+                              }),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
                       ),
                       Obx(
                         () => Visibility(

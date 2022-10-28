@@ -49,16 +49,26 @@ class TransactionScreen {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Obx(
-                  () => Visibility(
-                    visible: !homeController.isSearching.value,
-                    child: _buildIconTile(
-                        icon: Icons.calendar_month_rounded,
-                        title: 'Date',
-                        onTap: () {
-                          transactionScreenController.selectDate(context);
-                        }),
-                  ),
+                Visibility(
+                  visible: true,
+                  child: _buildIconTile(
+                      icon: Icons.filter_list_off,
+                      title: 'Remove Filter',
+                      onTap: () {
+                        transactionScreenController.removeFIlter();
+                      }),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Visibility(
+                  visible: true,
+                  child: _buildIconTile(
+                      icon: Icons.calendar_month_rounded,
+                      title: 'Date',
+                      onTap: () {
+                        transactionScreenController.selectDate(context);
+                      }),
                 ),
                 SizedBox(
                   width: 10,
