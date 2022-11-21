@@ -8,7 +8,7 @@ import 'package:gym/utils/constants/colors.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:gym/view/components/member_screen.dart';
-import 'package:gym/view/components/setting_screen.dart';
+import 'package:gym/view/components/monthly_transaction_screen.dart';
 import 'package:gym/view/components/transaction_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -194,6 +194,13 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _headline = 'transaction');
         },
       ),
+      CollapsibleItem(
+        text: '',
+        icon: Icons.calendar_month,
+        onPressed: () {
+          setState(() => _headline = 'monthly');
+        },
+      ),
       // CollapsibleItem(
       //   text: '',
       //   icon: Icons.settings_rounded,
@@ -232,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? MemberScreen().body(size, context)
                 : _headline == 'transaction'
                     ? TransactionScreen().body(size, context)
-                    : SettingsScreen().body(size, context),
+                    : MonthlyTransactionScreen().body(size, context),
             showToggleButton: false,
             backgroundColor: Colors.grey.withOpacity(0.2),
             selectedIconColor: AppColors.white,
