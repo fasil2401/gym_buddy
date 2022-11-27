@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym/controller/image_controller.dart';
 import 'package:gym/model/customer_list_model.dart' as customer;
+import 'package:gym/model/images_model.dart';
 import 'package:gym/model/member_model.dart';
 import 'package:gym/model/package_model.dart';
 import 'package:gym/model/postal_area_model.dart';
@@ -19,6 +21,7 @@ class MemberScreenController extends GetxController {
     getMenbers();
   }
 
+  final imagesController = Get.put(ImagesController());
   var pageSizes = 15.obs;
   var pageNumber = 1.obs;
   var query = ''.obs;
@@ -313,6 +316,10 @@ class MemberScreenController extends GetxController {
         }
       } finally {
         if (respStatus.value == 200) {
+          imagesController.createImage(
+              image: ImageModel(
+                  id: mobile.value.toString(),
+                  image: imagesController.base64string.value.toString()));
           isLoading.value = false;
           resetFieldValues();
           Navigator.of(context).pop();
@@ -433,7 +440,7 @@ class MemberScreenController extends GetxController {
     }
   }
 
-  setFieldValues(MemberModel menber) {
+  setFieldValues(MemberModel menber) async {
     name.value = menber.name;
     mobile.value = menber.mobile;
     gender.value = menber.gender;
@@ -451,9 +458,11 @@ class MemberScreenController extends GetxController {
     adhaar.value = menber.aadhaar;
     packageId.value = menber.package;
     status.value = status.value;
+    imagesController.getImage(menber);
   }
 
   resetFieldValues() {
+    imagesController.base64string.value = '';
     name.value = '';
     mobile.value = '';
     gender.value = '';

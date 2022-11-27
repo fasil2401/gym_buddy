@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gym/controller/home_controller.dart';
+import 'package:gym/controller/image_controller.dart';
 import 'package:gym/controller/member_screen_controller.dart';
 import 'package:gym/controller/transaction_screen_controller.dart';
 import 'package:gym/utils/constants/colors.dart';
@@ -14,6 +17,7 @@ class MemberScreen {
   final HomeController homeController = Get.put(HomeController());
   final memberScreenController = Get.put(MemberScreenController());
   final transactionScreenController = Get.put(TransactionScreenController());
+  final imagesController = Get.put(ImagesController());
 
   final List<String> genderItems = [
     'male',
@@ -1198,6 +1202,7 @@ class MemberScreen {
                             icon: Icons.add_circle_outline_outlined,
                             title: 'Add Member',
                             onTap: () {
+                              imagesController.base64string.value = '';
                               showDialog<void>(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -1247,6 +1252,62 @@ class MemberScreen {
                                           child: SingleChildScrollView(
                                             child: Column(
                                               children: [
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      imagesController
+                                                          .getFile();
+                                                    },
+                                                    child: Container(
+                                                      width: 150,
+                                                      height: 150,
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors.glass,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(
+                                                            10,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      child: Obx(() {
+                                                        Uint8List? bytes;
+                                                        bytes = Base64Codec()
+                                                            .decode(
+                                                                imagesController
+                                                                    .base64string
+                                                                    .value);
+                                                        return Center(
+                                                          child: imagesController
+                                                                      .base64string
+                                                                      .value !=
+                                                                  ''
+                                                              ? ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                      10,
+                                                                    ),
+                                                                  ),
+                                                                  child: Image
+                                                                      .memory(
+                                                                    bytes,
+                                                                    width: 150,
+                                                                    height: 150,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  'Add Image'),
+                                                        );
+                                                      }),
+                                                    ),
+                                                  ),
+                                                ),
                                                 Obx(() => Visibility(
                                                       visible:
                                                           memberScreenController
@@ -2145,6 +2206,48 @@ class MemberScreen {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                          onTap: () {
+                            imagesController.getFile();
+                          },
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: AppColors.glass,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  10,
+                                ),
+                              ),
+                            ),
+                            child: Obx(() {
+                              Uint8List? bytes;
+                              bytes = Base64Codec()
+                                  .decode(imagesController.base64string.value);
+                              return Center(
+                                child: imagesController.base64string.value != ''
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                        child: Image.memory(
+                                          bytes,
+                                          width: 150,
+                                          height: 150,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : Text('Add Image'),
+                              );
+                            }),
+                          ),
+                        ),
+                      ),
                       Obx(() => Visibility(
                             visible: memberScreenController.fieldError.value,
                             child: Align(

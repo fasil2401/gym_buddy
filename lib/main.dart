@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gym/model/images_model.dart';
+import 'package:gym/services/repository.dart';
 import 'package:gym/view/homescreen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async{
+    await Hive.initFlutter();
+  Hive.registerAdapter(ImageModelAdapter());
+  await BoxRepository.openBox();
   runApp(const MyApp());
 }
 
