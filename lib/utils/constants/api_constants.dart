@@ -1,3 +1,3 @@
 class Api {
-  static const String apiUrl = 'https://gymsuit.herokuapp.com/';
+  static const String apiUrl = 'https://gym-suite.onrender.com/';
 }
