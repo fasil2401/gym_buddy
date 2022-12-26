@@ -1481,14 +1481,12 @@ class MemberScreen {
                                                       () => _buildTextField(
                                                         controller:
                                                             TextEditingController(
-                                                                text:
-                                                                    memberScreenController
-                                                                        .state
-                                                                        .value),
+                                                                ),
                                                         hint: 'State',
-                                                        isReadOnly: true,
+                                                        isReadOnly: false,
                                                         onChanged: (value) =>
-                                                            print(value),
+                                                            memberScreenController
+                                                                .getState(value),
                                                       ),
                                                     ),
                                                   ],
@@ -1502,14 +1500,13 @@ class MemberScreen {
                                                       () => _buildTextField(
                                                         controller:
                                                             TextEditingController(
-                                                                text:
-                                                                    memberScreenController
-                                                                        .district
-                                                                        .value),
+                                                               ),
                                                         hint: 'District',
-                                                        isReadOnly: true,
+                                                        isReadOnly: false,
                                                         onChanged: (value) =>
-                                                            print(value),
+                                                            memberScreenController
+                                                                .getDistrict(
+                                                                    value),
                                                       ),
                                                     ),
                                                     SizedBox(

@@ -140,6 +140,15 @@ class MemberScreenController extends GetxController {
     this.address.value = address;
     print(this.address.value);
   }
+  getState(String state) {
+    this.state.value = state;
+    print(this.state.value);
+  }
+
+  getDistrict(String district) {
+    this.district.value = district;
+    print(this.district.value);
+  }
 
   getHeight(String height) {
     this.height.value = height;
@@ -227,8 +236,8 @@ class MemberScreenController extends GetxController {
         } else {}
       } finally {
         if (respMessage.value == 'Success') {
-          state.value = result.postOffice[0].state;
-          district.value = result.postOffice[0].district;
+          // state.value = result.postOffice[0].state;
+          // district.value = result.postOffice[0].district;
           areas.clear();
           for (var area in result.postOffice) {
             areas.add(area.name);
@@ -272,12 +281,12 @@ class MemberScreenController extends GetxController {
         mobile.value != '' &&
         job.value != '' &&
         gender.value != '' &&
-        address.value != '' &&
+        // address.value != '' &&
         height.value != '' &&
         weight.value != '' &&
         age.value != '' &&
         adhaar.value != '' &&
-        area.value != '' &&
+        // area.value != '' &&
         packageId.value != '' &&
         joiningDate.value != '') {
       final data = json.encode({
