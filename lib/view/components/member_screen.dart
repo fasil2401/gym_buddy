@@ -1477,17 +1477,14 @@ class MemberScreen {
                                                     SizedBox(
                                                       width: 10,
                                                     ),
-                                                    Obx(
-                                                      () => _buildTextField(
-                                                        controller:
-                                                            TextEditingController(
-                                                                ),
-                                                        hint: 'State',
-                                                        isReadOnly: false,
-                                                        onChanged: (value) =>
-                                                            memberScreenController
-                                                                .getState(value),
-                                                      ),
+                                                    _buildTextField(
+                                                      controller:
+                                                          TextEditingController(),
+                                                      hint: 'State',
+                                                      isReadOnly: false,
+                                                      onChanged: (value) =>
+                                                          memberScreenController
+                                                              .getState(value),
                                                     ),
                                                   ],
                                                 ),
@@ -1496,94 +1493,81 @@ class MemberScreen {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Obx(
-                                                      () => _buildTextField(
-                                                        controller:
-                                                            TextEditingController(
-                                                               ),
-                                                        hint: 'District',
-                                                        isReadOnly: false,
-                                                        onChanged: (value) =>
-                                                            memberScreenController
-                                                                .getDistrict(
-                                                                    value),
-                                                      ),
+                                                    _buildTextField(
+                                                      controller:
+                                                          TextEditingController(),
+                                                      hint: 'District',
+                                                      isReadOnly: false,
+                                                      onChanged: (value) =>
+                                                          memberScreenController
+                                                              .getDistrict(
+                                                                  value),
                                                     ),
                                                     SizedBox(
                                                       width: 10,
                                                     ),
                                                     Flexible(
-                                                      child: Obx(() =>
-                                                          DropdownButtonFormField2(
-                                                            decoration:
-                                                                _dropDownDecocration(),
-                                                            isExpanded: true,
-                                                            hint: const Text(
-                                                              'Area',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
-                                                            ),
-                                                            icon: const Icon(
-                                                              Icons
-                                                                  .arrow_drop_down,
-                                                              color: AppColors
-                                                                  .grey,
-                                                            ),
-                                                            iconSize: 20,
-                                                            // buttonHeight: 60,
-                                                            buttonWidth: 90,
-                                                            buttonPadding:
-                                                                EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            5),
-                                                            dropdownDecoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border: Border.all(
-                                                                  color:
-                                                                      AppColors
-                                                                          .grey,
-                                                                  width: 0.3),
-                                                            ),
-                                                            items: memberScreenController
-                                                                .areas.value
-                                                                .map((item) =>
-                                                                    DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          item,
-                                                                      child:
-                                                                          Text(
-                                                                        item,
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              AppColors.grey,
-                                                                        ),
-                                                                      ),
-                                                                    ))
-                                                                .toList(),
-                                                            onChanged: (value) {
-                                                              memberScreenController
-                                                                  .setArea(value
-                                                                      .toString());
-                                                            },
-                                                            onSaved: (value) {
-                                                              selectedValue =
-                                                                  value
-                                                                      .toString();
-                                                            },
-                                                          )),
-                                                    ),
+                                                        child:
+                                                            DropdownButtonFormField2(
+                                                      decoration:
+                                                          _dropDownDecocration(),
+                                                      isExpanded: true,
+                                                      hint: const Text(
+                                                        'Area',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: AppColors.grey,
+                                                        ),
+                                                      ),
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color: AppColors.grey,
+                                                      ),
+                                                      iconSize: 20,
+                                                      // buttonHeight: 60,
+                                                      buttonWidth: 90,
+                                                      buttonPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 5),
+                                                      dropdownDecoration:
+                                                          BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                            color:
+                                                                AppColors.grey,
+                                                            width: 0.3),
+                                                      ),
+                                                      items: memberScreenController
+                                                          .areas.value
+                                                          .map((item) =>
+                                                              DropdownMenuItem<
+                                                                  String>(
+                                                                value: item,
+                                                                child: Text(
+                                                                  item,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color:
+                                                                        AppColors
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                      onChanged: (value) {
+                                                        memberScreenController
+                                                            .setArea(value
+                                                                .toString());
+                                                      },
+                                                      onSaved: (value) {
+                                                        selectedValue =
+                                                            value.toString();
+                                                      },
+                                                    )),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -2370,26 +2354,24 @@ class MemberScreen {
                       ),
                       Row(
                         children: [
-                          Obx(
-                            () => _buildTextField(
-                              controller: TextEditingController(
-                                  text: memberScreenController.pincode.value),
-                              hint: 'Pincode',
-                              onChanged: (value) =>
-                                  memberScreenController.getPincode(value),
-                            ),
+                          _buildTextField(
+                            controller: TextEditingController(
+                                text: memberScreenController.pincode.value),
+                            hint: 'Pincode',
+                            onChanged: (value) =>
+                                memberScreenController.getPincode(value),
+                            // memberScreenController.getPincode(value),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Obx(
-                            () => _buildTextField(
-                              controller: TextEditingController(
-                                  text: memberScreenController.state.value),
-                              hint: 'State',
-                              isReadOnly: true,
-                              onChanged: (value) => print(value),
-                            ),
+                          _buildTextField(
+                            controller: TextEditingController(
+                                text: memberScreenController.state.value),
+                            hint: 'State',
+                            isReadOnly: true,
+                            onChanged: (value) =>
+                                memberScreenController.getState(value),
                           ),
                         ],
                       ),
@@ -2398,64 +2380,60 @@ class MemberScreen {
                       ),
                       Row(
                         children: [
-                          Obx(
-                            () => _buildTextField(
-                              controller: TextEditingController(
-                                  text: memberScreenController.district.value),
-                              hint: 'District',
-                              isReadOnly: true,
-                              onChanged: (value) => print(value),
-                            ),
+                          _buildTextField(
+                            controller: TextEditingController(
+                                text: memberScreenController.district.value),
+                            hint: 'District',
+                            isReadOnly: true,
+                            onChanged: (value) =>
+                                memberScreenController.getDistrict(value),
                           ),
                           SizedBox(
                             width: 10,
                           ),
                           Flexible(
-                            child: Obx(() => DropdownButtonFormField2(
-                                  decoration: _dropDownDecocration(),
-                                  isExpanded: true,
-                                  hint: Text(
-                                    memberScreenController.area.value,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.grey,
-                                    ),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: AppColors.grey,
-                                  ),
-                                  iconSize: 20,
-                                  // buttonHeight: 60,
-                                  buttonWidth: 90,
-                                  buttonPadding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                  dropdownDecoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: AppColors.grey, width: 0.3),
-                                  ),
-                                  items: memberScreenController.areas.value
-                                      .map((item) => DropdownMenuItem<String>(
-                                            value: item,
-                                            child: Text(
-                                              item,
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                                color: AppColors.grey,
-                                              ),
-                                            ),
-                                          ))
-                                      .toList(),
-                                  onChanged: (value) {
-                                    memberScreenController
-                                        .setArea(value.toString());
-                                  },
-                                  onSaved: (value) {
-                                    selectedValue = value.toString();
-                                  },
-                                )),
-                          ),
+                              child: DropdownButtonFormField2(
+                            decoration: _dropDownDecocration(),
+                            isExpanded: true,
+                            hint: Text(
+                              memberScreenController.area.value,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey,
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: AppColors.grey,
+                            ),
+                            iconSize: 20,
+                            // buttonHeight: 60,
+                            buttonWidth: 90,
+                            buttonPadding: EdgeInsets.symmetric(horizontal: 5),
+                            dropdownDecoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border:
+                                  Border.all(color: AppColors.grey, width: 0.3),
+                            ),
+                            items: memberScreenController.areas.value
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: AppColors.grey,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              memberScreenController.setArea(value.toString());
+                            },
+                            onSaved: (value) {
+                              selectedValue = value.toString();
+                            },
+                          )),
                         ],
                       ),
                       SizedBox(

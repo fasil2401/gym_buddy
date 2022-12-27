@@ -140,6 +140,7 @@ class MemberScreenController extends GetxController {
     this.address.value = address;
     print(this.address.value);
   }
+
   getState(String state) {
     this.state.value = state;
     print(this.state.value);
@@ -297,7 +298,7 @@ class MemberScreenController extends GetxController {
         "pincode": pincode.value,
         "state": state.value,
         "district": district.value,
-        "area": area.value,
+        "area": "not available",
         "address": address.value,
         "weight": double.parse(weight.value),
         "height": double.parse(height.value),
